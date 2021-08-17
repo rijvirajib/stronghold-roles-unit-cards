@@ -1,0 +1,139 @@
+.container {
+  padding: 20px;
+}
+
+.unit-card {
+  border: 7px solid #b33320;
+  width: 320px;
+  max-width: 100%;
+  margin: 15px auto;
+  text-align: left;
+  position: relative;
+}
+.card-corner-ne {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 40px;
+}
+.card-corner-se {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 40px;
+}
+.card-corner-sw {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  width: 40px;
+}
+.card-inner {
+  border: 2px solid black;
+  min-height: 200px;
+  padding: 13px 28px;
+  position: relative;
+  font-size: 13px;
+}
+.card-top {
+  padding-left: 70px;
+  padding-top: 10px;
+  min-height: 90px;
+}
+.card-top-fort {
+  min-height: 75px;
+}
+.card-main {
+  padding-bottom: 15px;
+}
+.card-name {
+  font-family: 'Domine', serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 16px;
+  border-bottom: 2px solid black;
+  margin-bottom: 5px;
+}
+.card-type {
+  font-family: 'Domine', serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+}
+.card-traits {
+  font-family: 'Domine', serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-top: 7px;
+}
+.card-table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  border-top: 2px solid black;
+}
+.card-table td {
+  border-bottom: 2px solid black;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: 'Cabin', sans-serif;
+}
+.card-cost {
+  text-align: right;
+  text-transform: uppercase;
+}
+.commander {
+  margin-top: 10px;
+  text-align: center;
+  font-style: italic;
+}
+
+.card-flags {
+  position: absolute;
+  top: -9px;
+  left: 15px;
+}
+.card-flag {
+  width: 30px;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 5px;
+}
+.fort-flag {
+  margin-top: 25px;
+  width: 70px;
+}
+.fort-flag img {
+  max-width: 100%;
+}
+.experience-flag,
+.role-flag,
+.type-flag {
+  width: 30px;
+}
+.experience-flag {
+  position: absolute;
+  top: 74px;
+  left: 0;
+}
+.type-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  transform: translate(-50%, -50%);
+  margin-top: -10px;
+}
+.card-flag svg {
+  width: 100%;
+  height: auto;
+}
+
+.text-transform-none {
+  text-transform: none !important;
+}
+
+.text-right {
+  text-align: right;
+}

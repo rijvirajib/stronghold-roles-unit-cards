@@ -1,0 +1,171 @@
+<div class="container" fxLayout="column" fxLayoutGap="10px">
+  <div fxLayout="row" fxLayoutGap="10px">
+    <mat-card fxFlex="50%">
+      <mat-card-header>
+        <mat-card-title>Unit Generator</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div fxLayout="column">
+          <div fxLayout="row" fxLayoutGap="20px">
+            <mat-form-field appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput placeholder="Name" [(ngModel)]="name">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Commander</mat-label>
+              <input matInput placeholder="Commander" [(ngModel)]="commander">
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutGap="20px">
+            <mat-form-field appearance="outline">
+              <mat-label>Experience</mat-label>
+              <mat-select [(ngModel)]="selectedExperience" (ngModelChange)="onRecalculateTotals()">
+                <mat-option *ngFor="let experience of unitExperiences" [value]="experience">{{ experience[0] }}</mat-option>
+              </mat-select>
+              <mat-hint *ngIf="selectedExperience">{{ selectedExperience.slice(1).join(' | ') }}</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Equipment</mat-label>
+              <mat-select [(ngModel)]="selectedEquipment" (ngModelChange)="onRecalculateTotals()" [disabled]="selectedUnitType[0] === 'Levies'">
+                <mat-option *ngFor="let equipment of unitEquipment" [value]="equipment" [disabled]="selectedUnitType[0] !== 'Levies' && equipment[0] === ''">{{ equipment[0] || 'None' }}</mat-option>
+              </mat-select>
+              <mat-hint *ngIf="selectedEquipment">{{ selectedEquipment.slice(1).join(' | ') }}</mat-hint>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutGap="20px">
+            <mat-form-field appearance="outline">
+              <mat-label>Unit Type</mat-label>
+              <mat-select [(ngModel)]="selectedUnitType" (ngModelChange)="onRecalculateTotals()">
+                <mat-option *ngFor="let unitType of unitTypes" [value]="unitType">{{ unitType[0] }}</mat-option>
+              </mat-select>
+              <mat-hint *ngIf="selectedUnitType">{{ selectedUnitType.slice(1, 5).join(' | ') }}</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Battlefield Role</mat-label>
+              <mat-select [(ngModel)]="selectedRole" (ngModelChange)="onRecalculateTotals()">
+                <mat-option *ngFor="let role of unitRoles" [value]="role">{{ role[0] || 'None' }}</mat-option>
+              </mat-select>
+              <mat-hint *ngIf="selectedRole">{{ selectedRole.slice(1).join(' | ') }}</mat-hint>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutGap="20px">
+            <mat-form-field appearance="outline">
+              <mat-label>Size</mat-label>
+              <mat-select [(ngModel)]="selectedSize" (ngModelChange)="onRecalculateTotals()">
+                <mat-option *ngFor="let unitSize of unitSizes" [value]="unitSize">d{{ unitSize[0] }}</mat-option>
+              </mat-select>
+              <mat-hint *ngIf="selectedSize">{{ selectedSize.slice(1).join(' | ') }}</mat-hint>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutGap="20px">
+            <mat-form-field appearance="outline">
+              <mat-label>Training Alt Roles</mat-label>
+              <mat-select [(ngModel)]="training" (ngModelChange)="onRecalculateTotals()" multiple>
+                <mat-option *ngFor="let role of trainingTraits" [value]="role">{{ role[0] }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Traits</mat-label>
+              <mat-select [(ngModel)]="traits" (ngModelChange)="onRecalculateTotals()" multiple>
+                <mat-option *ngFor="let trait of availableTraits" [value]="trait">{{ trait[0] }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card fxFlex="50%">
+      <mat-card-header>
+        <mat-card-title>Unit Card</mat-card-title>
+      </mat-card-header>
+      <mat-card-content style.color="{{ cardColor ? cardColor : '#b33320' }} !important">
+        <div class="unit-card" id="card" [style.border-color]="cardColor ? cardColor : '#b33320'" >
+          <img alt="" src="/assets/card-images/corner-ne.png" class="card-corner-ne" />
+          <img alt="" src="/assets/card-images/corner-se.png" class="card-corner-se" />
+          <img alt="" src="/assets/card-images/corner-sw.png" class="card-corner-sw" />
+          <div class="card-inner" [style.color]="cardColor ? cardColor : '#b33320'">
+            <div class="card-flags">
+              <div class="card-flag">
+                <img alt="" src="/assets/flags/role/special.png" class="role-flag">
+                <img *ngIf="selectedExperience[0] && selectedExperience[0] !== 'Green'"
+                  [alt]="selectedExperience[0]" src="/assets/flags/experience/{{ selectedExperience[0] | lowercase }}.png" class="experience-flag">
+              </div>
+              <div class="card-flag">
+                <img alt="" src="{{ typeFlag }}" class="type-flag">
+              </div>
+            </div>
+            <div class="card-top ">
+              <div class="card-name">{{ name ? name : 'Unit Name' }}</div>
+              <div class="card-type">
+                <div>{{ selectedExperience[0] }} {{ selectedUnitType[0] }}</div>
+                <div>{{ selectedEquipment[0] }} {{ roleOverride ? roleOverride : selectedRole[0] }}</div>
+              </div>
+            </div>
+            <div class="card-main">
+              <div class="card-cost">Cost: {{ cost }}</div>
+              <table class="card-table">
+                <tbody>
+                  <tr>
+                    <td>Attack:</td>
+                    <td class="text-right pad-right">{{ attack }}</td>
+                    <td>Defense:</td>
+                    <td class="text-right">{{ defense }}</td>
+                  </tr>
+                  <tr>
+                    <td>Power:</td>
+                    <td class="text-right pad-right">{{ power }}</td>
+                    <td>Toughness:</td>
+                    <td class="text-right">{{ toughness }}</td>
+                  </tr>
+                  <tr>
+                    <td>Morale:</td>
+                    <td class="text-right pad-right">{{ morale }}</td>
+                    <td>Size:</td>
+                    <td class="text-right text-transform-none">1d{{ selectedSize[0] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="card-traits" *ngIf="selectedUnitType[7] || selectedRole[0] || training.length">Traits</div>
+              <div *ngIf="selectedUnitType[7]">
+                <b>{{ selectedUnitType[7] }}</b>. {{ selectedUnitType[8] }}
+              </div>
+              <div *ngIf="selectedRole[0]">
+                <b>{{ selectedRole[0] }}</b>. {{ selectedRole[6] }}
+              </div>
+              <ng-container *ngIf="training.length">
+                <div *ngFor="let trait of training"><b>{{ trait[0] }}</b>. {{ trait[6] }}</div>
+              </ng-container>
+              <ng-container *ngIf="traits.length">
+                <div *ngFor="let trait of traits"><b>{{ trait[0] }}</b>. {{ trait[1] }}</div>
+              </ng-container>
+              <div *ngIf="commander" class="commander">Commanded by {{commander}}</div>
+            </div>
+          </div>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxLayout="row" fxLayoutGap="10px">
+    <mat-card fxFlex="50%">
+      <mat-card-header>
+        <mat-card-title>Customizer</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div fxLayout="column">
+          <div fxLayout="row" fxLayoutGap="20px">
+            <mat-form-field appearance="outline">
+              <mat-label>Role Override</mat-label>
+              <input matInput placeholder="Role Override" [(ngModel)]="roleOverride">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Card Color</mat-label>
+              <input matInput placeholder="Card Color" [(ngModel)]="cardColor">
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div fxFlex="50%"></div>
+  </div>
+</div>
