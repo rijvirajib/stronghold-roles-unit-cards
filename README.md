@@ -1,4 +1,12 @@
-# Strongholds Roles Unit Creator
+
+[Live Site](https://strongholds-roles-unit-creator.herokuapp.com/create)
+
+Strongholds and Followers Roles Unit Creator
+
+A custom unit creator for [S&F Community Battlefield Roles](https://docs.google.com/document/d/1D04xcbI8DqddPu3e9fD3ieSMP2LSEGD-kMrZL6U9byQ/edit)
+
+Images for flags and borders are taken from open source project https://github.com/freddybushboy/unit-cards
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.1.
 
@@ -25,7 +33,3 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
-
-## Thanks
-Images for flags and borders are taken from open source project https://github.com/freddybushboy/unit-cards
-Some have been customized to fit the Strongholds Roles sheet instead
