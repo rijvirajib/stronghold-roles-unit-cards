@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { toPng } from 'html-to-image';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-unit-card',
@@ -7,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class UnitCardComponent implements OnInit {
+  @ViewChild('unitCard') unitCard?: ElementRef;
+  
   name = ''
   commander = ''
   attack = 0
@@ -186,5 +190,35 @@ export class UnitCardComponent implements OnInit {
       + 30
       + this.costAdjustment
     )
+  }
+
+  onDownload() {
+    toPng(this.unitCard?.nativeElement)
+    .then(dataUrl => {
+      const name = this.name ? this.name : 'Generic Unit'
+      const selectedRole = this.selectedRole[0] ? this.selectedRole[0] : 'No Role'
+      const role = this.roleOverride ? this.roleOverride : selectedRole
+      const fileName = `${name}-${role}-${this.selectedUnitType[0]}.png`
+      const blob = this.dataURItoBlob(dataUrl);
+      const file = new File([blob], fileName);
+      saveAs(file);
+    });
+  }
+
+  dataURItoBlob(dataURI: string) {
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+    var byteString = atob(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    // write the bytes of the string to an ArrayBuffer
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
   }
 }

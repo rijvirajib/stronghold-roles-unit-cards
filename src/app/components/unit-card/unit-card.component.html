@@ -79,7 +79,7 @@
         <mat-card-title>Unit Card</mat-card-title>
       </mat-card-header>
       <mat-card-content style.color="{{ cardColor ? cardColor : '#b33320' }} !important">
-        <div class="unit-card" id="card" [style.border-color]="cardColor ? cardColor : '#b33320'" >
+        <div class="unit-card" #unitCard [style.border-color]="cardColor ? cardColor : '#b33320'" >
           <img alt="" src="/assets/card-images/corner-ne.png" class="card-corner-ne" />
           <img alt="" src="/assets/card-images/corner-se.png" class="card-corner-se" />
           <img alt="" src="/assets/card-images/corner-sw.png" class="card-corner-sw" />
@@ -142,8 +142,10 @@
             </div>
           </div>
         </div>
-
       </mat-card-content>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+        <button mat-raised-button color="primary" (click)="onDownload()">Download</button>
+      </mat-card-actions>
     </mat-card>
     <div fxFill></div>
   </div>
