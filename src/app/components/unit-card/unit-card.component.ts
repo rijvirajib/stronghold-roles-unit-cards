@@ -23,6 +23,13 @@ export class UnitCardComponent implements OnInit {
   roleOverride = ''
   cardColor = '#b33320'
 
+  attackAdjustment = 0
+  defenseAdjustment = 0
+  powerAdjustment = 0
+  toughnessAdjustment = 0
+  moraleAdjustment = 0
+  costAdjustment = 0
+
   unitExperiences = [
     ['Green', 0, 0, 0, 0, 0],
     ['Regular', 1, 0, 1, 0, 1],
@@ -147,6 +154,13 @@ export class UnitCardComponent implements OnInit {
     this.toughness = this.selectedExperience[4] + this.selectedEquipment[4] + this.selectedUnitType[4] + this.selectedRole[4]
     this.morale = this.selectedExperience[5] + this.selectedEquipment[5] + this.selectedUnitType[5] + this.selectedRole[5]
 
+    // Adjustments
+    this.attack += this.attackAdjustment
+    this.defense += this.defenseAdjustment
+    this.power += this.powerAdjustment
+    this.toughness += this.toughnessAdjustment
+    this.morale += this.moraleAdjustment
+
     let traitsCost = 0
     for (const trait of this.training) {
       this.attack += trait[1]
@@ -162,14 +176,15 @@ export class UnitCardComponent implements OnInit {
       traitsCost += trait[2]
     }
 
-    // Cost [Attack + Power + Defense + Toughness + (Morale x 2)] * [Unit Type Mod] * [Size Mod] + Traits + 30
+    // Cost [Attack + Power + Defense + Toughness + (Morale x 2)] * [Unit Type Mod] * [Size Mod] + Traits + 30 + CostAdjustment
 
     this.cost = Math.ceil(
-    (this.attack + this.power + this.defense + this.toughness + (this.morale * 2)) 
-    * this.selectedUnitType[6]
-    * this.selectedSize[1]
-    + traitsCost
-    + 30
+      (this.attack + this.power + this.defense + this.toughness + (this.morale * 2)) 
+      * this.selectedUnitType[6]
+      * this.selectedSize[1]
+      + traitsCost
+      + 30
+      + this.costAdjustment
     )
   }
 }

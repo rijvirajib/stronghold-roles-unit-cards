@@ -1,5 +1,5 @@
 <div class="container" fxLayout="column" fxLayoutGap="10px">
-  <div fxLayout="row" fxLayoutGap="10px">
+  <div fxLayout.xs="column" fxLayout="row" fxLayoutGap="10px" class="card-panel">
     <mat-card fxFlex="50%">
       <mat-card-header>
         <mat-card-title>Unit Generator</mat-card-title>
@@ -74,7 +74,7 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <mat-card fxFlex="50%">
+    <mat-card fxFlex="50%-10px">
       <mat-card-header>
         <mat-card-title>Unit Card</mat-card-title>
       </mat-card-header>
@@ -145,14 +145,45 @@
 
       </mat-card-content>
     </mat-card>
+    <div fxFill></div>
   </div>
   <div fxLayout="row" fxLayoutGap="10px">
     <mat-card fxFlex="50%">
       <mat-card-header>
-        <mat-card-title>Customizer</mat-card-title>
+        <mat-card-title>Customize</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div fxLayout="column">
+          <div fxLayout="row" fxLayoutGap="20px">
+            <mat-form-field appearance="outline">
+              <mat-label>Attack Adjustment</mat-label>
+              <input matInput type="number" value="0" [(ngModel)]="attackAdjustment" (ngModelChange)="onRecalculateTotals()">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Defense Adjustment</mat-label>
+              <input matInput type="number" value="0" [(ngModel)]="defenseAdjustment" (ngModelChange)="onRecalculateTotals()">
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutGap="20px">
+            <mat-form-field appearance="outline">
+              <mat-label>Power Adjustment</mat-label>
+              <input matInput type="number" value="0" [(ngModel)]="powerAdjustment" (ngModelChange)="onRecalculateTotals()">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Toughness Adjustment</mat-label>
+              <input matInput type="number" value="0" [(ngModel)]="toughnessAdjustment" (ngModelChange)="onRecalculateTotals()">
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutGap="20px">
+            <mat-form-field appearance="outline">
+              <mat-label>Morale Adjustment</mat-label>
+              <input matInput type="number" value="0" [(ngModel)]="moraleAdjustment" (ngModelChange)="onRecalculateTotals()">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Cost Adjustment</mat-label>
+              <input matInput type="number" value="0" [(ngModel)]="costAdjustment" (ngModelChange)="onRecalculateTotals()">
+            </mat-form-field>
+          </div>
           <div fxLayout="row" fxLayoutGap="20px">
             <mat-form-field appearance="outline">
               <mat-label>Role Override</mat-label>
@@ -166,6 +197,6 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <div fxFlex="50%"></div>
+    <div fxFill></div>
   </div>
 </div>
